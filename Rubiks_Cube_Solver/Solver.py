@@ -246,11 +246,104 @@ class RubiksCubeSolver:
             Action.U(self.cube)
             Action.U(self.cube)
             self.edge_insert()
+    def cross_making_action(self):
+
+        Action.F(self.cube)
+        Action.U(self.cube)
+        Action.R(self.cube)
+        Action.U_prime(self.cube)
+        Action.R_prime(self.cube)
+        Action.F_prime(self.cube)
+
+    def top_cross(self):
+
+        cross_cubelets = [self.cube.cubelets[1],
+                          self.cube.cubelets[5],
+                          self.cube.cubelets[7],
+                          self.cube.cubelets[3]]
+
+        while True:
+
+            # Cross
+            flag = True
+            for cubelet in cross_cubelets:
+                if cubelet.sides[0] != Face.Yellow:
+                    flag = False
+                    break
+            if flag:
+                return
+
+            # Dot
+            if (cross_cubelets[0].sides[0] != Face.Yellow and
+                    cross_cubelets[1].sides[0] != Face.Yellow and
+                    cross_cubelets[2].sides[0] != Face.Yellow and
+                    cross_cubelets[3].sides[0] != Face.Yellow):
+                self.cross_making_action()
+
+            # Vertical line
+            if cross_cubelets[0].sides[0] == cross_cubelets[2].sides[0] == Face.Yellow:
+                Action.U(self.cube)
+
+            # L in wrong orientation
+            if cross_cubelets[0].sides[0] == cross_cubelets[1].sides[0] == Face.Yellow:
+                Action.U_prime(self.cube)
+            elif cross_cubelets[2].sides[0] == cross_cubelets[3].sides[0] == Face.Yellow:
+                Action.U(self.cube)
+
+            self.cross_making_action()
+
+    def cross_orienting_action(self):
+
+        Action.U(self.cube)
+        Action.R(self.cube)
+        Action.U(self.cube)
+        Action.R_prime(self.cube)
+        Action.U(self.cube)
+        Action.R(self.cube)
+        Action.U_prime(self.cube)
+        Action.U_prime(self.cube)
+        Action.R_prime(self.cube)
+
+    def orient_cross(self):
+
+        counter = 0
+
+        while True:
+            while self.cube.cubelets[1].sides[3] != Face.Green:
+                Action.U(self.cube)
+
+            cross_edges = [self.cube.cubelets[1].sides[3],
+                           self.cube.cubelets[3].sides[4],
+                           self.cube.cubelets[7].sides[1],
+                           self.cube.cubelets[5].sides[2]]
+            if cross_edges == [Face.Green, Face.Orange, Face.Blue, Face.Red]:
+                break
+
+            index_blue = cross_edges.index(Face.Blue)
+
+            # Vertical line
+            if cross_edges[(index_blue + 2) % 4] == Face.Green:
+                self.cross_orienting_action()
+
+            if cross_edges[0] == ((cross_edges[1].value + 1) % 4 + 1):
+                Action.U_prime(self.cube)
+            elif cross_edges[0] == ((cross_edges[1].value + 1) % 4 + 1):
+                Action.U(self.cube)
+
+            if counter == 3:
+                counter = 0
+                Action.U(self.cube)
+
+            self.cross_orienting_action()
+
+            counter += 1
 r = RubiksCubeSolver()
 r.mix_cube(100)
 r.down_cross()
 r.place_down_corners()
 r.orient_down_corners()
 r.place_side_edges()
+r.top_cross()
+r.orient_cross()
 
 r.cube.print_cube()
