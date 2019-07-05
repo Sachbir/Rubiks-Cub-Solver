@@ -13,8 +13,8 @@ class RubiksCube:
 
     def initialize_cube(self):
 
-        for i in range(0, 9):
-            self.cubelets[i].sides[0] = Face.Yellow
+        for cubelet in self.get_up_cubelets():
+            cubelet.sides[0] = Face.Yellow
 
         for cubelet in self.get_front_cubelets():
             cubelet.sides[1] = Face.Blue
@@ -22,21 +22,20 @@ class RubiksCube:
         for cubelet in self.get_right_cubelets():
             cubelet.sides[2] = Face.Red
 
-        for i in range(0, 27, 9):
-            for j in range(3):
-                self.cubelets[i + j].sides[3] = Face.Green
+        for cubelet in self.get_back_cubelets():
+            cubelet.sides[3] = Face.Green
 
-        for i in range(0, 27, 3):
-            self.cubelets[i].sides[4] = Face.Orange
+        for cubelet in self.get_left_cubelets():
+            cubelet.sides[4] = Face.Orange
 
-        for i in range(18, 27):
-            self.cubelets[i].sides[5] = Face.White
+        for cubelet in self.get_down_cubelets():
+            cubelet.sides[5] = Face.White
 
     def print_cube(self):
 
         print("\nUp")
-        for i in range(0, 9):
-            print(self.cubelets[i].sides[0])
+        for cubelet in self.get_up_cubelets():
+            print(cubelet.sides[0])
 
         print("\nFront")
         for cubelet in self.get_front_cubelets():
@@ -51,12 +50,12 @@ class RubiksCube:
             print(cubelet.sides[3])
 
         print("\nLeft")
-        for i in range(0, 27, 3):
-            print(self.cubelets[i].sides[4])
+        for cubelet in self.get_left_cubelets():
+            print(cubelet.sides[4])
 
         print("\nDown")
-        for i in range(18, 27):
-            print(self.cubelets[i].sides[5])
+        for cubelet in self.get_down_cubelets():
+            print(cubelet.sides[5])
 
     @staticmethod
     def rotate_face_cw(cubelets, turn, side_to_set):
@@ -97,8 +96,6 @@ class RubiksCube:
         cubelets[3] = temp
 
         side_to_set(cubelets)
-
-
 
     # Break
 

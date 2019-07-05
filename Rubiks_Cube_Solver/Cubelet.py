@@ -3,12 +3,11 @@ from Face import Face
 
 class Cubelet:
 
-    # 0 indicates a blank face; 1-6 indicate sides
     # U, F, R, B, L, D
 
     def __init__(self):
 
-        self.sides = [Face.Blank
+        self.sides = [Face.BLANK
                       for i in range(6)]
 
     def turn_u_cw(self):
@@ -48,6 +47,7 @@ class Cubelet:
         self.sides[4] = temp
 
     def turn_r_cw(self):
+
         temp = self.sides[0]
 
         self.sides[0] = self.sides[1]
@@ -56,6 +56,7 @@ class Cubelet:
         self.sides[3] = temp
 
     def turn_r_ccw(self):
+
         temp = self.sides[0]
 
         self.sides[0] = self.sides[3]

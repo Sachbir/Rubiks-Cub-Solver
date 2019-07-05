@@ -1,42 +1,58 @@
-from enum import Enum
 from Cubelet import Cubelet
 
 
 # noinspection PyMethodParameters,PyPep8Naming
-class Action(Enum):
+class Action:
 
-    def U(cube):
-        cube.rotate_face_cw(cube.get_up_cubelets(), Cubelet.turn_u_cw, cube.set_up_cubelets)
+    cube = None
 
-    def U_prime(cube):
-        cube.rotate_face_ccw(cube.get_up_cubelets(), Cubelet.turn_u_ccw, cube.set_up_cubelets)
+    # Letter is the side in question
+    # i denotes inverse (counter-clockwise rotation)
 
-    def F(cube):
-        cube.rotate_face_cw(cube.get_front_cubelets(), Cubelet.turn_f_cw, cube.set_front_cubelets)
+    @staticmethod
+    def U():
+        Action.cube.rotate_face_cw(Action.cube.get_up_cubelets(), Cubelet.turn_u_cw, Action.cube.set_up_cubelets)
 
-    def F_prime(cube):
-        cube.rotate_face_ccw(cube.get_front_cubelets(), Cubelet.turn_f_ccw, cube.set_front_cubelets)
+    @staticmethod
+    def Ui():
+        Action.cube.rotate_face_ccw(Action.cube.get_up_cubelets(), Cubelet.turn_u_ccw, Action.cube.set_up_cubelets)
 
-    def R(cube):
-        cube.rotate_face_cw(cube.get_right_cubelets(), Cubelet.turn_r_cw, cube.set_right_cubelets)
+    @staticmethod
+    def F():
+        Action.cube.rotate_face_cw(Action.cube.get_front_cubelets(), Cubelet.turn_f_cw, Action.cube.set_front_cubelets)
 
-    def R_prime(cube):
-        cube.rotate_face_ccw(cube.get_right_cubelets(), Cubelet.turn_r_ccw, cube.set_right_cubelets)
+    @staticmethod
+    def Fi():
+        Action.cube.rotate_face_ccw(Action.cube.get_front_cubelets(), Cubelet.turn_f_ccw, Action.cube.set_front_cubelets)
 
-    def B(cube):
-        cube.rotate_face_cw(cube.get_back_cubelets(), Cubelet.turn_f_ccw, cube.set_back_cubelets)
+    @staticmethod
+    def R():
+        Action.cube.rotate_face_cw(Action.cube.get_right_cubelets(), Cubelet.turn_r_cw, Action.cube.set_right_cubelets)
 
-    def B_prime(cube):
-        cube.rotate_face_ccw(cube.get_back_cubelets(), Cubelet.turn_f_cw, cube.set_back_cubelets)
+    @staticmethod
+    def Ri():
+        Action.cube.rotate_face_ccw(Action.cube.get_right_cubelets(), Cubelet.turn_r_ccw, Action.cube.set_right_cubelets)
 
-    def L(cube):
-        cube.rotate_face_cw(cube.get_left_cubelets(), Cubelet.turn_r_ccw, cube.set_left_cubelets)
+    @staticmethod
+    def B():
+        Action.cube.rotate_face_cw(Action.cube.get_back_cubelets(), Cubelet.turn_f_ccw, Action.cube.set_back_cubelets)
 
-    def L_prime(cube):
-        cube.rotate_face_ccw(cube.get_left_cubelets(), Cubelet.turn_r_cw, cube.set_left_cubelets)
+    @staticmethod
+    def Bi():
+        Action.cube.rotate_face_ccw(Action.cube.get_back_cubelets(), Cubelet.turn_f_cw, Action.cube.set_back_cubelets)
 
-    def D(cube):
-        cube.rotate_face_cw(cube.get_down_cubelets(), Cubelet.turn_u_ccw, cube.set_down_cubelets)
+    @staticmethod
+    def L():
+        Action.cube.rotate_face_cw(Action.cube.get_left_cubelets(), Cubelet.turn_r_ccw, Action.cube.set_left_cubelets)
 
-    def D_prime(cube):
-        cube.rotate_face_ccw(cube.get_down_cubelets(), Cubelet.turn_u_cw, cube.set_down_cubelets)
+    @staticmethod
+    def Li():
+        Action.cube.rotate_face_ccw(Action.cube.get_left_cubelets(), Cubelet.turn_r_cw, Action.cube.set_left_cubelets)
+
+    @staticmethod
+    def D():
+        Action.cube.rotate_face_cw(Action.cube.get_down_cubelets(), Cubelet.turn_u_ccw, Action.cube.set_down_cubelets)
+
+    @staticmethod
+    def Di():
+        Action.cube.rotate_face_ccw(Action.cube.get_down_cubelets(), Cubelet.turn_u_cw, Action.cube.set_down_cubelets)

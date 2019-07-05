@@ -3,7 +3,7 @@ from enum import Enum
 
 class Face(Enum):
 
-    Blank = 0
+    BLANK = 0
     Yellow = 1
     Blue = 2
     Red = 3
