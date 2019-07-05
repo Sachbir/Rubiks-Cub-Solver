@@ -10,11 +10,43 @@ class Cubelet:
 
         self.up = self.front = self.right = self.back = self.left = self.down = Face.Blank
 
-    def turn_r(self):
+    def turn_u_cw(self):
 
-        if self.up == Face.Blank:
-            x = 0
+        temp = self.back
 
+        self.back = self.left
+        self.left = self.front
+        self.front = self.right
+        self.right = temp
+
+    def turn_u_ccw(self):
+
+        temp = self.back
+
+        self.back = self.right
+        self.right = self.front
+        self.front = self.left
+        self.left = temp
+
+    def turn_f_cw(self):
+
+        temp = self.up
+
+        self.up = self.left
+        self.left = self.down
+        self.down = self.right
+        self.right = temp
+
+    def turn_f_ccw(self):
+
+        temp = self.up
+
+        self.up = self.right
+        self.right = self.down
+        self.down = self.left
+        self.left = temp
+
+    def turn_r_cw(self):
         temp = self.up
 
         self.up = self.front
@@ -22,8 +54,7 @@ class Cubelet:
         self.down = self.back
         self.back = temp
 
-    def turn_r_inv(self):
-
+    def turn_r_ccw(self):
         temp = self.up
 
         self.up = self.back

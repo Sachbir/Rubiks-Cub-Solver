@@ -15,12 +15,11 @@ class RubiksCube:
         for i in range(0, 9):
             self.cubelets[i].up = Face.Yellow
 
-        for i in range(6, 27, 9):
-            for j in range(3):
-                self.cubelets[i + j].front = Face.Blue
+        for cubelet in self.get_front_cubelets():
+            cubelet.front = Face.Blue
 
-        for i in range(2, 27, 3):
-            self.cubelets[i].right = Face.Red
+        for cubelet in self.get_right_cubelets():
+            cubelet.right = Face.Red
 
         for i in range(0, 27, 9):
             for j in range(3):
@@ -29,63 +28,188 @@ class RubiksCube:
         for i in range(0, 27, 3):
             self.cubelets[i].left = Face.Orange
 
-        for i in range(19, 27):
+        for i in range(18, 27):
             self.cubelets[i].down = Face.White
 
     def print_cube(self):
 
-        print("\nTop")
+        print("\nUp")
         for i in range(0, 9):
             print(self.cubelets[i].up)
 
         print("\nFront")
-        for i in range(6, 9):
-            print(self.cubelets[i].front)
-        for i in range(15, 18):
-            print(self.cubelets[i].front)
-        for i in range(24, 27):
-            print(self.cubelets[i].front)
+        for cubelet in self.get_front_cubelets():
+            print(cubelet.front)
 
         print("\nRight")
-        for i in range(2, 27, 3):
-            print(self.cubelets[i].right)
+        for cubelet in self.get_right_cubelets():
+            print(cubelet.right)
 
         print("\nBack")
-        for i in range(0, 3):
-            print(self.cubelets[i].back)
-        for i in range(9, 12):
-            print(self.cubelets[i].back)
-        for i in range(18, 21):
-            print(self.cubelets[i].back)
+        for i in range(0, 27, 9):
+            for j in range(3):
+                print(self.cubelets[i + j].back)
 
         print("\nLeft")
         for i in range(0, 27, 3):
             print(self.cubelets[i].left)
 
         print("\nDown")
-        for i in range(19, 27):
+        for i in range(18, 27):
             print(self.cubelets[i].down)
 
-    def swap_cubelets(self, w, x, y, z):
+    @staticmethod
+    def rotate_face_cw(cubelets, turn, side_to_set):
 
-        temp = self.cubelets[w]
-        self.cubelets[w] = self.cubelets[x]
-        self.cubelets[x] = self.cubelets[y]
-        self.cubelets[y] = self.cubelets[z]
-        self.cubelets[z] = temp
+        for cubelet in cubelets:
+            turn(cubelet)
 
-    def turn_r(self):
+        temp = cubelets[0]
+        cubelets[0] = cubelets[6]
+        cubelets[6] = cubelets[8]
+        cubelets[8] = cubelets[2]
+        cubelets[2] = temp
 
-        for i in range(2, 27, 3):
-            self.cubelets[i].turn_r()
+        temp = cubelets[1]
+        cubelets[1] = cubelets[3]
+        cubelets[3] = cubelets[7]
+        cubelets[7] = cubelets[5]
+        cubelets[5] = temp
 
-        self.swap_cubelets(2, 8, 26, 20)
-        self.swap_cubelets(5, 17, 23, 11)
+        side_to_set(cubelets)
 
-    def turn_r_inv(self):
+    @staticmethod
+    def rotate_face_ccw(cubelets, turn, side_to_set):
 
-        for i in range(2, 27, 3):
-            self.cubelets[i].turn_r_inv()
+        for cubelet in cubelets:
+            turn(cubelet)
 
-        self.swap_cubelets(2, 20, 26, 8)
-        self.swap_cubelets(5, 11, 23, 17)
+        temp = cubelets[0]
+        cubelets[0] = cubelets[2]
+        cubelets[2] = cubelets[8]
+        cubelets[8] = cubelets[6]
+        cubelets[6] = temp
+
+        temp = cubelets[1]
+        cubelets[1] = cubelets[5]
+        cubelets[5] = cubelets[7]
+        cubelets[7] = cubelets[3]
+        cubelets[3] = temp
+
+        side_to_set(cubelets)
+
+
+
+    def get_up_cubelets(self):
+
+        up_cubelets = []
+
+        for i in range(0, 9):
+            up_cubelets.append(self.cubelets[i])
+
+        return up_cubelets
+
+    def set_up_cubelets(self, cubelets):
+
+        index = 0
+
+        for i in range(0, 9):
+            self.cubelets[i] = cubelets[index]
+            index += 1
+
+    def get_front_cubelets(self):
+
+        front_cubelets = []
+
+        for i in range(6, 27, 9):
+            for j in range(3):
+                front_cubelets.append(self.cubelets[i + j])
+
+        return front_cubelets
+
+    def set_front_cubelets(self, cubelets):
+
+        index = 0
+
+        for i in range(6, 27, 9):
+            for j in range(3):
+                self.cubelets[i + j] = cubelets[index]
+                index += 1
+
+    def get_right_cubelets(self):
+
+        right_cubelets = []
+
+        for i in range(8, 27, 9):
+            for j in range(3):
+                right_cubelets.append(self.cubelets[i - 3 * j])
+
+        return right_cubelets
+
+    def set_right_cubelets(self, cubelets):
+
+        index = 0
+
+        for i in range(8, 27, 9):
+            for j in range(3):
+                self.cubelets[i - 3 * j] = cubelets[index]
+                index += 1
+
+    def get_back_cubelets(self):
+
+        back_cubelets = []
+
+        for i in range(2, 27, 9):
+            for j in range(3):
+                cub = self.cubelets[i - j]
+                back_cubelets.append(cub)
+
+        return back_cubelets
+
+    def set_back_cubelets(self, cubelets):
+
+        index = 0
+
+        for i in range(2, 27, 9):
+            for j in range(3):
+
+                self.cubelets[i - j] = cubelets[index]
+                index += 1
+
+    def get_left_cubelets(self):
+
+        left_cubelets = []
+
+        for i in range(0, 27, 9):
+            for j in range(3):
+                left_cubelets.append(self.cubelets[i + 3 * j])
+
+        return left_cubelets
+
+    def set_left_cubelets(self, cubelets):
+
+        index = 0
+
+        for i in range(0, 27, 3):
+            self.cubelets[i] = cubelets[index]
+            index += 1
+
+    def get_down_cubelets(self):
+
+        down_cubelets = []
+
+        for i in range(24, 17, -3):
+            for j in range(3):
+                cub = self.cubelets[i + j]
+                down_cubelets.append(cub)
+
+        return down_cubelets
+
+    def set_down_cubelets(self, cubelets):
+
+        index = 0
+
+        for i in range(24, 17, -3):
+            for j in range(3):
+                self.cubelets[i + j] = cubelets[index]
+                index += 1
