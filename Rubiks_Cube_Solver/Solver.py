@@ -25,6 +25,17 @@ class RubiksCubeSolver:
             action = random.choice(RubiksCubeSolver.actions)
             action(self.cube)
 
+    def solve(self):
+
+        self.down_cross()
+        self.place_down_corners()
+        self.orient_down_corners()
+        self.place_side_edges()
+        self.top_cross()
+        self.orient_cross()
+        self.position_up_corners()
+        self.orient_up_corners()
+
     def find_cubelet(self, color_1, color_2, color_3=None):
 
         for cubelet in self.cube.cubelets:
@@ -246,6 +257,7 @@ class RubiksCubeSolver:
             Action.U(self.cube)
             Action.U(self.cube)
             self.edge_insert()
+
     def cross_making_action(self):
 
         Action.F(self.cube)
@@ -337,13 +349,67 @@ class RubiksCubeSolver:
             self.cross_orienting_action()
 
             counter += 1
+
+    def position_up_corners_algorithm(self):
+
+        Action.U(self.cube)
+        Action.R(self.cube)
+        Action.U_prime(self.cube)
+        Action.L_prime(self.cube)
+        Action.U(self.cube)
+        Action.R_prime(self.cube)
+        Action.U_prime(self.cube)
+        Action.L(self.cube)
+
+    def position_up_corners(self):
+
+        while True:
+            while self.cube.cubelets[7].sides[1] != Face.Blue:
+                Action.U(self.cube)
+
+            YBR = self.find_cubelet(Face.Yellow, Face.Blue, Face.Red)
+            YGR = self.find_cubelet(Face.Yellow, Face.Green, Face.Red)
+            YGO = self.find_cubelet(Face.Yellow, Face.Green, Face.Orange)
+            YBO = self.find_cubelet(Face.Yellow, Face.Blue, Face.Orange)
+
+            if (self.cube.cubelets.index(YBR) == 8 and
+                    self.cube.cubelets.index(YGR) == 2 and
+                    self.cube.cubelets.index(YGO) == 0 and
+                    self.cube.cubelets.index(YBO) == 6):
+                break
+
+            if self.cube.cubelets.index(YGR) == 2:
+                Action.U(self.cube)
+                Action.U(self.cube)
+                Action.U(self.cube)
+            elif self.cube.cubelets.index(YGO) == 0:
+                Action.U(self.cube)
+                Action.U(self.cube)
+            elif self.cube.cubelets.index(YBO) == 6:
+                Action.U(self.cube)
+
+            self.position_up_corners_algorithm()
+
+    def orient_up_corner_algorithm(self):
+
+        Action.R_prime(self.cube)
+        Action.D_prime(self.cube)
+        Action.R(self.cube)
+        Action.D(self.cube)
+
+    def orient_up_corners(self):
+
+        for i in range(4):
+            cubelet = self.cube.cubelets[8]
+            while cubelet.sides[0] != Face.Yellow:
+                self.orient_up_corner_algorithm()
+            Action.U(self.cube)
+
+
 r = RubiksCubeSolver()
+
 r.mix_cube(100)
-r.down_cross()
-r.place_down_corners()
-r.orient_down_corners()
-r.place_side_edges()
-r.top_cross()
-r.orient_cross()
+
+r.solve()
 
 r.cube.print_cube()
