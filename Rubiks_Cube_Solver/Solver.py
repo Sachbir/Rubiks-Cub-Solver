@@ -190,10 +190,67 @@ class RubiksCubeSolver:
                 self.R_U_Ri_Ui()
                 self.R_U_Ri_Ui()
             Action.D(self.cube)
+
+    def edge_insert(self):
+
+        Action.U_prime(self.cube)
+        Action.F_prime(self.cube)
+        Action.U(self.cube)
+        Action.F(self.cube)
+        Action.U(self.cube)
+        Action.R(self.cube)
+        Action.U_prime(self.cube)
+        Action.R_prime(self.cube)
+
+    def place_side_edges(self):
+
+        self.place_a_side_edge(Face.Blue, Face.Red)
+        self.turn_cube_v_cw()
+
+        self.place_a_side_edge(Face.Red, Face.Green)
+        self.turn_cube_v_cw()
+
+        self.place_a_side_edge(Face.Green, Face.Orange)
+        self.turn_cube_v_cw()
+
+        self.place_a_side_edge(Face.Orange, Face.Blue)
+        self.turn_cube_v_cw()
+
+    def place_a_side_edge(self, color1, color2):
+
+        edge_cubelet = self.find_cubelet(color1, color2)
+        index_of_cubelet = self.cube.cubelets.index(edge_cubelet)
+
+        if 8 < index_of_cubelet < 18:
+            count = 0
+            while index_of_cubelet != 17:
+                self.turn_cube_v_cw()
+                index_of_cubelet = self.cube.cubelets.index(edge_cubelet)
+                count += 1
+            self.edge_insert()
+            for i in range(count):
+                self.turn_cube_v_ccw()
+
+        index_of_cubelet = self.cube.cubelets.index(edge_cubelet)
+
+        if index_of_cubelet < 9:
+            while index_of_cubelet != 5:
+                Action.U(self.cube)
+                index_of_cubelet = self.cube.cubelets.index(edge_cubelet)
+
+            self.edge_insert()
+
+        if edge_cubelet.sides[1] != color1:
+            # re-orient
+            self.edge_insert()
+            Action.U(self.cube)
+            Action.U(self.cube)
+            self.edge_insert()
 r = RubiksCubeSolver()
 r.mix_cube(100)
 r.down_cross()
 r.place_down_corners()
 r.orient_down_corners()
+r.place_side_edges()
 
 r.cube.print_cube()
