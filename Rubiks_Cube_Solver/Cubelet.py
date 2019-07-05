@@ -8,56 +8,57 @@ class Cubelet:
 
     def __init__(self):
 
-        self.up = self.front = self.right = self.back = self.left = self.down = Face.Blank
+        self.sides = [Face.Blank
+                      for i in range(6)]
 
     def turn_u_cw(self):
 
-        temp = self.back
+        temp = self.sides[3]
 
-        self.back = self.left
-        self.left = self.front
-        self.front = self.right
-        self.right = temp
+        self.sides[3] = self.sides[4]
+        self.sides[4] = self.sides[1]
+        self.sides[1] = self.sides[2]
+        self.sides[2] = temp
 
     def turn_u_ccw(self):
 
-        temp = self.back
+        temp = self.sides[3]
 
-        self.back = self.right
-        self.right = self.front
-        self.front = self.left
-        self.left = temp
+        self.sides[3] = self.sides[2]
+        self.sides[2] = self.sides[1]
+        self.sides[1] = self.sides[4]
+        self.sides[4] = temp
 
     def turn_f_cw(self):
 
-        temp = self.up
+        temp = self.sides[0]
 
-        self.up = self.left
-        self.left = self.down
-        self.down = self.right
-        self.right = temp
+        self.sides[0] = self.sides[4]
+        self.sides[4] = self.sides[5]
+        self.sides[5] = self.sides[2]
+        self.sides[2] = temp
 
     def turn_f_ccw(self):
 
-        temp = self.up
+        temp = self.sides[0]
 
-        self.up = self.right
-        self.right = self.down
-        self.down = self.left
-        self.left = temp
+        self.sides[0] = self.sides[2]
+        self.sides[2] = self.sides[5]
+        self.sides[5] = self.sides[4]
+        self.sides[4] = temp
 
     def turn_r_cw(self):
-        temp = self.up
+        temp = self.sides[0]
 
-        self.up = self.front
-        self.front = self.down
-        self.down = self.back
-        self.back = temp
+        self.sides[0] = self.sides[1]
+        self.sides[1] = self.sides[5]
+        self.sides[5] = self.sides[3]
+        self.sides[3] = temp
 
     def turn_r_ccw(self):
-        temp = self.up
+        temp = self.sides[0]
 
-        self.up = self.back
-        self.back = self.down
-        self.down = self.front
-        self.front = temp
+        self.sides[0] = self.sides[3]
+        self.sides[3] = self.sides[5]
+        self.sides[5] = self.sides[1]
+        self.sides[1] = temp

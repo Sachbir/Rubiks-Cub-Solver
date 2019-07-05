@@ -2,6 +2,7 @@ from enum import Enum
 from Cubelet import Cubelet
 
 
+# noinspection PyMethodParameters,PyPep8Naming
 class Action(Enum):
 
     def U(cube):
