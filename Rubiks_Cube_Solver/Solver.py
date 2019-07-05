@@ -1,5 +1,7 @@
 from RubiksCube import RubiksCube
 from Action import Action
+from Face import Face
+from Cubelet import Cubelet
 import random
 
 
@@ -117,7 +119,81 @@ class RubiksCubeSolver:
                 self.fix_edge()
             self.turn_cube_v_cw()
 
+    def turn_cube_v_cw(self):
+
+        Action.U(self.cube)
+        self.cube.rotate_face_cw(self.cube.get_up_middle(), Cubelet.turn_u_cw, self.cube.set_up_middle)
+        Action.D_prime(self.cube)
+
+    def turn_cube_v_ccw(self):
+
+        Action.U_prime(self.cube)
+        self.cube.rotate_face_ccw(self.cube.get_up_middle(), Cubelet.turn_u_ccw, self.cube.set_up_middle)
+        Action.D(self.cube)
+
+    def R_U_Ri_Ui(self):
+
+        Action.R(self.cube)
+        Action.U(self.cube)
+        Action.R_prime(self.cube)
+        Action.U_prime(self.cube)
+
+    def place_down_corners(self):
+
+        self.place_a_down_corner(Face.Blue, Face.Red)
+        self.turn_cube_v_cw()
+        self.place_a_down_corner(Face.Red, Face.Green)
+        self.turn_cube_v_cw()
+        self.place_a_down_corner(Face.Green, Face.Orange)
+        self.turn_cube_v_cw()
+        self.place_a_down_corner(Face.Orange, Face.Blue)
+        self.turn_cube_v_cw()
+
+    def place_a_down_corner(self, color1, color2):
+
+        down_corner = self.find_cubelet(Face.White, color1, color2)
+        index_of_cubelet = self.cube.cubelets.index(down_corner)
+
+        # In the bottom layer
+        if index_of_cubelet > 17:
+
+            count = 0
+
+            while index_of_cubelet != 26:
+                Action.D(self.cube)
+                count += 1
+                index_of_cubelet = self.cube.cubelets.index(down_corner)
+
+            self.R_U_Ri_Ui()
+
+            for i in range(count):
+                Action.D_prime(self.cube)
+
+            self.R_U_Ri_Ui()
+
+            return
+
+        # In the top layer
+        count = 0
+        while index_of_cubelet != 8:
+            Action.U(self.cube)
+            count += 1
+            index_of_cubelet = self.cube.cubelets.index(down_corner)
+
+        self.R_U_Ri_Ui()
+
+    def orient_down_corners(self):
+
+        for i in range(4):
+            corner_cubelet = self.cube.cubelets[26]
+            while corner_cubelet.sides[5] != Face.White:
+                self.R_U_Ri_Ui()
+                self.R_U_Ri_Ui()
+            Action.D(self.cube)
 r = RubiksCubeSolver()
 r.mix_cube(100)
+r.down_cross()
+r.place_down_corners()
+r.orient_down_corners()
 
 r.cube.print_cube()

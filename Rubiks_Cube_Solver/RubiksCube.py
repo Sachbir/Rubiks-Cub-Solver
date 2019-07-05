@@ -100,6 +100,8 @@ class RubiksCube:
 
 
 
+    # Break
+
     def get_up_cubelets(self):
 
         up_cubelets = []
@@ -213,3 +215,20 @@ class RubiksCube:
             for j in range(3):
                 self.cubelets[i + j] = cubelets[index]
                 index += 1
+
+    def get_up_middle(self):
+
+        middle_cubelets = []
+
+        for i in range(9, 18):
+            middle_cubelets.append(self.cubelets[i])
+
+        return middle_cubelets
+
+    def set_up_middle(self, cubelets):
+
+        index = 0
+
+        for i in range(9, 18):
+            self.cubelets[i] = cubelets[index]
+            index += 1
