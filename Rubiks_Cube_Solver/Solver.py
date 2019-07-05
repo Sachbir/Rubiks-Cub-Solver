@@ -1,16 +1,29 @@
 from RubiksCube import RubiksCube
-from Cubelet import Cubelet
+from Action import Action
+import random
 
-cube = RubiksCube()
-cube.initialize_cube()
-cube.print_cube()
 
-print("\n\n\n")
+class RubiksCubeSolver:
 
-cube.rotate_face_cw(cube.get_back_cubelets(), Cubelet.turn_f_ccw, cube.set_back_cubelets)
-cube.print_cube()
+    actions = [Action.U, Action.U_prime,
+               Action.F, Action.F_prime,
+               Action.R, Action.R_prime,
+               Action.B, Action.B_prime,
+               Action.L, Action.L_prime,
+               Action.D, Action.D_prime]
 
-print("\n\n\n")
+    def __init__(self):
 
-cube.rotate_face_ccw(cube.get_back_cubelets(), Cubelet.turn_f_cw, cube.set_back_cubelets)
-cube.print_cube()
+        self.cube = RubiksCube()
+
+    def mix_cube(self, count):
+
+        for i in range(count):
+            action = random.choice(RubiksCubeSolver.actions)
+            action(self.cube)
+
+
+r = RubiksCubeSolver()
+r.mix_cube(100)
+
+r.cube.print_cube()

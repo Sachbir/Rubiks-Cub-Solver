@@ -9,6 +9,7 @@ class RubiksCube:
         # arranged left to right, back to front, top to bottom
         self.cubelets = [Cubelet()
                          for i in range(27)]
+        self.initialize_cube()
 
     def initialize_cube(self):
 
