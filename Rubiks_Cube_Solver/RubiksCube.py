@@ -7,6 +7,7 @@ class RubiksCube:
     def __init__(self):
 
         # arranged left to right, back to front, top to bottom
+        # noinspection PyUnusedLocal
         self.cubelets = [Cubelet()
                          for i in range(27)]
         self.initialize_cube()
@@ -78,43 +79,36 @@ class RubiksCube:
         side_to_set(cubelets)
 
     @staticmethod
-    def rotate_face_ccw(cubelets, turn, side_to_set):
+    def rotate_face_ccw(face_cubelets, turn_cubelet, set_face_cubelets):
 
-        for cubelet in cubelets:
-            turn(cubelet)
+        for cubelet in face_cubelets:
+            turn_cubelet(cubelet)
 
-        temp = cubelets[0]
-        cubelets[0] = cubelets[2]
-        cubelets[2] = cubelets[8]
-        cubelets[8] = cubelets[6]
-        cubelets[6] = temp
+        temp = face_cubelets[0]
+        face_cubelets[0] = face_cubelets[2]
+        face_cubelets[2] = face_cubelets[8]
+        face_cubelets[8] = face_cubelets[6]
+        face_cubelets[6] = temp
 
-        temp = cubelets[1]
-        cubelets[1] = cubelets[5]
-        cubelets[5] = cubelets[7]
-        cubelets[7] = cubelets[3]
-        cubelets[3] = temp
+        temp = face_cubelets[1]
+        face_cubelets[1] = face_cubelets[5]
+        face_cubelets[5] = face_cubelets[7]
+        face_cubelets[7] = face_cubelets[3]
+        face_cubelets[3] = temp
 
-        side_to_set(cubelets)
+        set_face_cubelets(face_cubelets)
 
-    # Break
+    # Plane/side getters and setters
 
     def get_up_cubelets(self):
 
-        up_cubelets = []
-
-        for i in range(0, 9):
-            up_cubelets.append(self.cubelets[i])
-
-        return up_cubelets
+        return [self.cubelets[i]
+                for i in range(0, 9)]
 
     def set_up_cubelets(self, cubelets):
 
-        index = 0
-
         for i in range(0, 9):
-            self.cubelets[i] = cubelets[index]
-            index += 1
+            self.cubelets[i] = cubelets[i]
 
     def get_front_cubelets(self):
 
@@ -171,7 +165,6 @@ class RubiksCube:
 
         for i in range(2, 27, 9):
             for j in range(3):
-
                 self.cubelets[i - j] = cubelets[index]
                 index += 1
 
@@ -187,11 +180,8 @@ class RubiksCube:
 
     def set_left_cubelets(self, cubelets):
 
-        index = 0
-
         for i in range(0, 27, 3):
-            self.cubelets[i] = cubelets[index]
-            index += 1
+            self.cubelets[i] = cubelets[int(i / 3)]
 
     def get_down_cubelets(self):
 
@@ -199,8 +189,7 @@ class RubiksCube:
 
         for i in range(24, 17, -3):
             for j in range(3):
-                cub = self.cubelets[i + j]
-                down_cubelets.append(cub)
+                down_cubelets.append(self.cubelets[i + j])
 
         return down_cubelets
 
@@ -215,17 +204,10 @@ class RubiksCube:
 
     def get_up_middle(self):
 
-        middle_cubelets = []
-
-        for i in range(9, 18):
-            middle_cubelets.append(self.cubelets[i])
-
-        return middle_cubelets
+        return [self.cubelets[i]
+                for i in range(9, 18)]
 
     def set_up_middle(self, cubelets):
 
-        index = 0
-
         for i in range(9, 18):
-            self.cubelets[i] = cubelets[index]
-            index += 1
+            self.cubelets[i] = cubelets[i - 9]
