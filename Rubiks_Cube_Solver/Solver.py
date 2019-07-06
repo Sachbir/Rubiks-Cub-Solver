@@ -381,6 +381,7 @@ class Solver:
         Action.L()
 
     # noinspection PyPep8Naming
+    #
     @staticmethod
     def position_up_corners():
 
@@ -400,9 +401,7 @@ class Solver:
                 break
 
             if Solver.cube.cubelets.index(YGR) == 2:
-                Action.U()
-                Action.U()
-                Action.U()
+                Action.Ui()
             elif Solver.cube.cubelets.index(YGO) == 0:
                 Action.U()
                 Action.U()
@@ -431,5 +430,9 @@ class Solver:
 
 r = Solver()
 r.mix_cube(200)
+r.cube.print_cube()
+
+print("\n\n")
+
 r.solve()
 r.cube.print_cube()

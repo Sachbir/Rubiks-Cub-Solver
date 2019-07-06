@@ -32,31 +32,49 @@ class RubiksCube:
         for cubelet in self.get_down_cubelets():
             cubelet.sides[5] = Face.White
 
+    @staticmethod
+    def line_break(counter):
+
+        counter += 1
+        if counter > 2:
+            print()
+            counter = 0
+        return counter
+
     def print_cube(self):
+
+        counter = 0
 
         print("\nUp")
         for cubelet in self.get_up_cubelets():
-            print(cubelet.sides[0])
+            print(cubelet.sides[0], end='\t')
+            counter = RubiksCube.line_break(counter)
+
 
         print("\nFront")
         for cubelet in self.get_front_cubelets():
-            print(cubelet.sides[1])
+            print(cubelet.sides[1], end='\t')
+            counter = RubiksCube.line_break(counter)
 
         print("\nRight")
         for cubelet in self.get_right_cubelets():
-            print(cubelet.sides[2])
+            print(cubelet.sides[2], end='\t')
+            counter = RubiksCube.line_break(counter)
 
         print("\nBack")
         for cubelet in self.get_back_cubelets():
-            print(cubelet.sides[3])
+            print(cubelet.sides[3], end='\t')
+            counter = RubiksCube.line_break(counter)
 
         print("\nLeft")
         for cubelet in self.get_left_cubelets():
-            print(cubelet.sides[4])
+            print(cubelet.sides[4], end='\t')
+            counter = RubiksCube.line_break(counter)
 
         print("\nDown")
         for cubelet in self.get_down_cubelets():
-            print(cubelet.sides[5])
+            print(cubelet.sides[5], end='\t')
+            counter = RubiksCube.line_break(counter)
 
     @staticmethod
     def rotate_face_cw(cubelets, turn, side_to_set):
